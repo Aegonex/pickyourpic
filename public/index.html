@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pick Your Pic</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Pick Your Pic</h1>
+    <div class="stats">
+      <span id="stat-total">ทั้งหมด: –</span>
+      <span id="stat-booked">จองแล้ว: –</span>
+      <span id="stat-free">เหลือ: –</span>
+    </div>
+  </header>
+
+  <main id="gallery"></main>
+
+  <!-- Booking modal -->
+  <div id="modal-overlay" class="hidden">
+    <div id="modal">
+      <h2>จองรูปนี้</h2>
+      <img id="modal-preview" src="" alt="preview" />
+      <label for="name-input">ชื่อของคุณ</label>
+      <input id="name-input" type="text" placeholder="พิมพ์ชื่อ..." autocomplete="off" />
+      <div class="modal-actions">
+        <button id="btn-cancel">ยกเลิก</button>
+        <button id="btn-confirm">ยืนยันจอง</button>
+      </div>
+      <p id="modal-error" class="hidden"></p>
+    </div>
+  </div>
+
+  <!-- Download name prompt -->
+  <div id="dl-overlay" class="hidden">
+    <div id="dl-modal">
+      <h2>ดาวน์โหลดรูป</h2>
+      <p>พิมพ์ชื่อที่ใช้จองเพื่อยืนยันสิทธิ์</p>
+      <input id="dl-name-input" type="text" placeholder="ชื่อของคุณ..." autocomplete="off" />
+      <div class="modal-actions">
+        <button id="dl-btn-cancel">ยกเลิก</button>
+        <button id="dl-btn-confirm">ดาวน์โหลด</button>
+      </div>
+      <p id="dl-error" class="hidden"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
