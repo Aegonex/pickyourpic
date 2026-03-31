@@ -146,7 +146,7 @@ header h1 {
 .btn-download:hover { opacity: 0.85; }
 
 /* Modal shared */
-#modal-overlay, #dl-overlay {
+#modal-overlay, #dl-overlay, #cancel-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.75);
@@ -157,7 +157,7 @@ header h1 {
   padding: 1rem;
 }
 
-#modal-overlay.hidden, #dl-overlay.hidden { display: none; }
+#modal-overlay.hidden, #dl-overlay.hidden, #cancel-overlay.hidden { display: none; }
 
 #modal, #dl-modal {
   background: var(--surface);
@@ -252,4 +252,4 @@ input[type="text"]:focus { border-color: var(--accent); }
   font-size: 0.85rem;
 }
 
-#modal-error.hidden, #dl-error.hidden { display: none; }
+#modal-error.hidden, #dl-error.hidden, #cancel-error.hidden { display: none; }
