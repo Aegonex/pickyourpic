@@ -47,6 +47,20 @@
     </div>
   </div>
 
+  <!-- Cancel booking prompt -->
+  <div id="cancel-overlay" class="hidden">
+    <div id="cancel-modal">
+      <h2>ยกเลิกการจอง</h2>
+      <p>พิมพ์ชื่อที่ใช้จองเพื่อยืนยัน</p>
+      <input id="cancel-name-input" type="text" placeholder="ชื่อของคุณ..." autocomplete="off" />
+      <div class="modal-actions">
+        <button id="cancel-btn-cancel">ปิด</button>
+        <button id="cancel-btn-confirm" class="btn-danger">ยกเลิกจอง</button>
+      </div>
+      <p id="cancel-error" class="hidden"></p>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

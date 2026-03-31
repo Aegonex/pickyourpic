@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { getBookings, bookImage, getBooking } = require('./database');
+const { getBookings, bookImage, getBooking, cancelBooking } = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -75,6 +75,16 @@ app.get('/api/download/:name', (req, res) => {
   }
 
   res.download(filePath, imageName);
+});
+
+// DELETE /api/book/:name — cancel booking (must provide booker name)
+app.delete('/api/book/:name', async (req, res) => {
+  const imageName = req.params.name;
+  const requesterName = (req.body.cancelledBy || '').trim();
+  if (!requesterName) return res.status(400).json({ success: false, message: 'กรุณาระบุชื่อ' });
+
+  const result = await cancelBooking(imageName, requesterName);
+  res.status(result.success ? 200 : 403).json(result);
 });
 
 app.listen(PORT, () => {

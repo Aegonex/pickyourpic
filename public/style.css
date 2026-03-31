@@ -228,8 +228,24 @@ input[type="text"]:focus { border-color: var(--accent); }
   color: #111;
 }
 
-#btn-cancel:hover, #dl-btn-cancel:hover { opacity: 0.8; }
+#btn-cancel:hover, #dl-btn-cancel:hover, #cancel-btn-cancel:hover { opacity: 0.8; }
 #btn-confirm:hover, #dl-btn-confirm:hover { opacity: 0.85; }
+
+.btn-danger { background: var(--danger) !important; color: #fff !important; }
+.btn-danger:hover { opacity: 0.85; }
+
+.btn-cancel-booking {
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-cancel-booking:hover { opacity: 0.75; }
 
 #modal-error, #dl-error {
   color: var(--danger);

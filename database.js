@@ -61,4 +61,21 @@ function getBooking(imageName) {
   return entry ? { booked_by: entry.booked_by } : null;
 }
 
-module.exports = { getBookings, bookImage, getBooking };
+async function cancelBooking(imageName, requesterName) {
+  await acquireLock();
+  try {
+    const data = readDb();
+    const entry = data[imageName];
+    if (!entry) return { success: false, message: 'รูปนี้ยังไม่ถูกจอง' };
+    if (entry.booked_by.toLowerCase() !== requesterName.toLowerCase()) {
+      return { success: false, message: 'ชื่อไม่ตรง ไม่สามารถยกเลิกได้' };
+    }
+    delete data[imageName];
+    writeDb(data);
+    return { success: true };
+  } finally {
+    releaseLock();
+  }
+}
+
+module.exports = { getBookings, bookImage, getBooking, cancelBooking };

@@ -10,6 +10,10 @@ const modalError = document.getElementById('modal-error');
 const dlOverlay = document.getElementById('dl-overlay');
 const dlNameInput = document.getElementById('dl-name-input');
 const dlError = document.getElementById('dl-error');
+const cancelOverlay = document.getElementById('cancel-overlay');
+const cancelNameInput = document.getElementById('cancel-name-input');
+const cancelError = document.getElementById('cancel-error');
+let cancelImage = null;
 
 async function fetchImages() {
   const res = await fetch('/api/images');
@@ -42,11 +46,16 @@ function render() {
         <span>จองแล้ว</span>
         <strong>${escHtml(img.bookedBy)}</strong>
         <button class="btn-download" data-name="${escHtml(img.name)}">ดาวน์โหลด</button>
+        <button class="btn-cancel-booking" data-name="${escHtml(img.name)}">ยกเลิกจอง</button>
       `;
       card.appendChild(label);
       label.querySelector('.btn-download').addEventListener('click', e => {
         e.stopPropagation();
         openDlModal(img.name);
+      });
+      label.querySelector('.btn-cancel-booking').addEventListener('click', e => {
+        e.stopPropagation();
+        openCancelModal(img.name);
       });
     } else {
       card.addEventListener('click', () => openBookModal(img.name));
@@ -138,6 +147,44 @@ document.getElementById('dl-btn-confirm').addEventListener('click', async () => 
 });
 
 dlNameInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('dl-btn-confirm').click(); });
+
+// Cancel booking modal
+function openCancelModal(name) {
+  cancelImage = name;
+  cancelNameInput.value = '';
+  hideError(cancelError);
+  cancelOverlay.classList.remove('hidden');
+  cancelNameInput.focus();
+}
+
+function closeCancelModal() {
+  cancelOverlay.classList.add('hidden');
+  cancelImage = null;
+}
+
+document.getElementById('cancel-btn-cancel').addEventListener('click', closeCancelModal);
+cancelOverlay.addEventListener('click', e => { if (e.target === cancelOverlay) closeCancelModal(); });
+
+document.getElementById('cancel-btn-confirm').addEventListener('click', async () => {
+  const name = cancelNameInput.value.trim();
+  if (!name) { showError(cancelError, 'กรุณาพิมพ์ชื่อ'); return; }
+
+  const res = await fetch(`/api/book/${encodeURIComponent(cancelImage)}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cancelledBy: name }),
+  });
+  const data = await res.json();
+
+  if (data.success) {
+    closeCancelModal();
+    await fetchImages();
+  } else {
+    showError(cancelError, data.message || 'เกิดข้อผิดพลาด');
+  }
+});
+
+cancelNameInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('cancel-btn-confirm').click(); });
 
 function showError(el, msg) { el.textContent = msg; el.classList.remove('hidden'); }
 function hideError(el) { el.classList.add('hidden'); }
